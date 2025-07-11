@@ -1,33 +1,65 @@
+using System;
+using System.Collections.Generic;
+
 public static class Arrays
 {
     /// <summary>
-    /// This function will produce an array of size 'length' starting with 'number' followed by multiples of 'number'.  For 
-    /// example, MultiplesOf(7, 5) will result in: {7, 14, 21, 28, 35}.  Assume that length is a positive
-    /// integer greater than 0.
+    /// Returns an array containing the first 'count' multiples of 'start'
     /// </summary>
-    /// <returns>array of doubles that are the multiples of the supplied number</returns>
-    public static double[] MultiplesOf(double number, int length)
+    /// <param name="start">The number whose multiples are generated</param>
+    /// <param name="count">The number of multiples to generate</param>
+    /// <returns>Array of multiples</returns>
+    public static double[] MultiplesOf(double start, int count)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Step 1: Create a result array of length 'count'
+        double[] result = new double[count];
 
-        return []; // replace this return statement with your own
+        // Step 2: Loop over indices from 0 to count - 1
+        for (int i = 0; i < count; i++)
+        {
+            // Step 3: Compute the multiple: start * (i + 1)
+            result[i] = start * (i + 1);
+        }
+
+        // Step 4: Return the populated array
+        return result;
     }
 
     /// <summary>
-    /// Rotate the 'data' to the right by the 'amount'.  For example, if the data is 
-    /// List<int>{1, 2, 3, 4, 5, 6, 7, 8, 9} and an amount is 3 then the list after the function runs should be 
-    /// List<int>{7, 8, 9, 1, 2, 3, 4, 5, 6}.  The value of amount will be in the range of 1 to data.Count, inclusive.
-    ///
-    /// Because a list is dynamic, this function will modify the existing data list rather than returning a new list.
+    /// Rotate the 'data' list to the right by 'amount'.
+    /// For example: data {1,2,3,4,5,6,7,8,9}, amount=3 => {7,8,9,1,2,3,4,5,6}
     /// </summary>
+    /// <param name="data">The list to rotate (modified in place)</param>
+    /// <param name="amount">Number of positions to rotate right (1 to data.Count)</param>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan:
+        // 1. Validate inputs: do nothing if data is null/empty or amount is out of range.
+        // 2. (Optional) Normalize amount using modulo in case amount > data.Count.
+        // 3. Slice the list into two parts:
+        //    a) endPart: the last 'amount' elements
+        //    b) startPart: the first 'data.Count - amount' elements
+        // 4. Clear the original list
+        // 5. Add endPart then startPart back into 'data'
+        // 6. For testing use dotnet test "code test succeded"
+
+        // Step 1: Input validation
+        if (data == null || data.Count == 0 || amount <= 0 || amount > data.Count)
+            return;
+
+        // Step 2: Normalize amount
+        amount = amount % data.Count;
+
+        // Step 3a: Extract the last 'amount' elements
+        List<int> endPart = data.GetRange(data.Count - amount, amount);
+        // Step 3b: Extract the remaining front portion
+        List<int> startPart = data.GetRange(0, data.Count - amount);
+
+        // Step 4: Clear original list
+        data.Clear();
+
+        // Step 5: Reassemble: add rotated tail, then original head
+        data.AddRange(endPart);
+        data.AddRange(startPart);
     }
 }
