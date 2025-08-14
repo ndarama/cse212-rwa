@@ -1,3 +1,5 @@
+using System;
+
 public class Node
 {
     public int Data { get; set; }
@@ -9,9 +11,14 @@ public class Node
         this.Data = data;
     }
 
+    /// <summary>
+    /// Problem 1: Insert unique values only.
+    /// Recursively places the value; if value == Data, do nothing (no duplicates).
+    /// </summary>
     public void Insert(int value)
     {
-        // TODO Start Problem 1
+        // Enforce set semantics: ignore duplicates
+        if (value == Data) return;
 
         if (value < Data)
         {
@@ -21,7 +28,7 @@ public class Node
             else
                 Left.Insert(value);
         }
-        else
+        else // value > Data
         {
             // Insert to the right
             if (Right is null)
@@ -31,15 +38,24 @@ public class Node
         }
     }
 
+    /// <summary>
+    /// Problem 2: Contains — standard BST search (recursive).
+    /// </summary>
     public bool Contains(int value)
     {
-        // TODO Start Problem 2
-        return false;
+        if (value == Data) return true;
+        if (value < Data)  return Left?.Contains(value)  ?? false;
+        else               return Right?.Contains(value) ?? false;
     }
 
+    /// <summary>
+    /// Problem 4: GetHeight — height = 1 + max(leftHeight, rightHeight).
+    /// Empty subtree has height 0; single node has height 1.
+    /// </summary>
     public int GetHeight()
     {
-        // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        int leftH  = Left?.GetHeight()  ?? 0;
+        int rightH = Right?.GetHeight() ?? 0;
+        return 1 + Math.Max(leftH, rightH);
     }
 }
